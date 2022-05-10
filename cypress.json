@@ -1,5 +1,12 @@
 {
     "baseUrl": "http://localhost:3000",
     "viewportWidth": 1440,
-    "viewportHeight": 900
+    "viewportHeight": 900,
+    "dbConfig": {
+        "host": "batyr.db.elephantsql.com",
+        "user": "gzzmkzuj",
+        "password": "e4XaUZwstVv7Af7E2jhxebc7GIQbBfeA",
+        "database": "gzzmkzuj",
+        "port": 5432
+    }
 }
