@@ -45,18 +45,7 @@ describe('Cadastro', function () {
         }
 
         before(function () {
-            cy.task('removeUser', user.email) //chamando a task criada em plugins -> index.js e printando no console o resultado
-                .then(function (result) {
-                    console.log(result)
-                })
-
-            cy.request(
-                'POST',
-                'http://localhost:3333/users',
-                user
-            ).then(function (response) {
-                expect(response.status).to.eq(200)
-            })
+            cy.postUser(user)
         })
 
         it('não deve cadastrar o usuário', function () {
@@ -107,7 +96,7 @@ describe('Cadastro', function () {
 
     })
 
-    context('Quando não preencho nenhum dos campos', function(){
+    context('Quando não preencho nenhum dos campos', function () {
 
         const alertMessages = [
             'Nome é obrigatório',
@@ -115,13 +104,13 @@ describe('Cadastro', function () {
             'Senha é obrigatória'
         ]
 
-        before(function(){
+        before(function () {
             signupPage.go()
             signupPage.submit()
         })
 
-        alertMessages.forEach(function(alert){
-            it('deve exibir ' + alert.toLowerCase(), function(){
+        alertMessages.forEach(function (alert) {
+            it('deve exibir ' + alert.toLowerCase(), function () {
                 signupPage.alertHaveText(alert)
             })
 
