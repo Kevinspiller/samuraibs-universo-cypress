@@ -57,7 +57,7 @@ describe('login', function () {
 
     })
 
-    context.only('quando o formato do email é inválido', function () {
+    context('quando o formato do email é inválido', function () {
 
         const emails = [
             'spiller.com.br',
@@ -80,9 +80,29 @@ describe('login', function () {
 
                 loginPage.form(user)
                 loginPage.submit()
-                loginPage.alertHaveText('Informe um email válido')
+                loginPage.alert.haveText('Informe um email válido')
             })
         })
 
+    })
+
+    context('Quando não preencho nenhum dos campos', function () {
+
+        const alertMessages = [
+            'E-mail é obrigatório',
+            'Senha é obrigatória'
+        ]
+
+        before(function () {
+            loginPage.go()
+            loginPage.submit()
+        })
+
+        alertMessages.forEach(function (alert) {
+            it('deve exibir ' + alert.toLowerCase(), function () {
+                loginPage.alert.haveText(alert)
+            })
+
+        })
     })
 })
