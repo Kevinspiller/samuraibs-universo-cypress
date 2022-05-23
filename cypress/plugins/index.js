@@ -37,7 +37,7 @@ module.exports = (on, config) => {
         })
       })
     },
-    findToken(email) {
+    findToken(email) { //faz o select no banco para retornar o token do usuário que pede redefinição de senha
       return new Promise(function(resolve){
         pool.query('select B.token from ' +
        'public.users A ' +
