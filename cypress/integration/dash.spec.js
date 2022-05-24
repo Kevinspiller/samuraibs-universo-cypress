@@ -1,4 +1,4 @@
-import loginPage from '../support/pages/login'
+
 import dashPage from '../support/pages/dash'
 
 import {customer, provider, appointment} from '../support/factories/dash' //importando dentro do teste os objetos que exporto na camada de fabricação (factories)
@@ -17,17 +17,14 @@ describe('dashboard', function(){
         })
     
         it('o mesmo deve ser exibido no dashboard',function(){
+
+            const day = Cypress.env('appointmentDay') // pega a data do agendamento dinâmica
            
-            loginPage.go() // acessa página
-            loginPage.form(provider) // preenche os campos com o provider
-            loginPage.submit() // clica no botão acessar
+            cy.uiLogin(provider)
 
             dashPage.calendarShouldBeVisible() //valida se o calendário está visível
-            
-            const day = Cypress.env('appointmentDay') // pega a data do agendamento dinâmica
             dashPage.selectDay(day) //seleciona o dia
-
-            dashPage.appointmentShouldBe(customer, appointment.hour) //valida se o dia + horário escolhidos estão visíveis
+            dashPage.appointmentShouldBe(customer, appointment.hour) //valida se o cliente e dia + horário escolhidos estão visíveis
 
         })
     })
