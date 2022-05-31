@@ -18,12 +18,13 @@ describe('dashboard', function(){
     
         it('o mesmo deve ser exibido no dashboard',function(){
 
-            const day = Cypress.env('appointmentDay') // pega a data do agendamento dinâmica
+            const date = Cypress.env('appointmentDate') // pega a data do agendamento dinâmica
            
-            cy.uiLogin(provider)
+            //cy.uiLogin(provider)
+            cy.apiLogin(provider, true)
 
             dashPage.calendarShouldBeVisible() //valida se o calendário está visível
-            dashPage.selectDay(day) //seleciona o dia
+            dashPage.selectDay(date) //seleciona o dia
             dashPage.appointmentShouldBe(customer, appointment.hour) //valida se o cliente e dia + horário escolhidos estão visíveis
 
         })

@@ -30,7 +30,7 @@ import loginPage from './pages/login'
 import dashPage from './pages/dash'
 
 // App Actions
-Cypress.Commands.add('uiLogin', function(user){
+Cypress.Commands.add('uiLogin', function (user) {
     loginPage.go()
     loginPage.form(user)
     loginPage.submit()
@@ -54,7 +54,7 @@ Cypress.Commands.add('postUser', function (user) {
 
 Cypress.Commands.add('recoveryPass', function (email) {
     cy.request({
-        method:'POST',
+        method: 'POST',
         url: apiServer + '/password/forgot',
         body: { email: email }
     }).then(function (response) {
@@ -74,8 +74,8 @@ Cypress.Commands.add('createAppointment', function (hour) {
     let now = new Date()
     now.setDate(now.getDate() + 1) // varíavel now será sempre a data atual + 1, assim sempre sendo data futura
 
-    Cypress.env('appointmentDay', now.getDate()) //variável de ambiente appointmentDay recebe apenas a data + 1
-    
+    Cypress.env('appointmentDate', now) //variável de ambiente appointmentDate recebe apenas a data + 1
+
     const date = moment(now).format(`YYYY-MM-DD ${hour}:00`) //interpolação de string da data + h/m/s com formatação do moment para o formato americano 
 
     const payload = {
@@ -118,7 +118,7 @@ Cypress.Commands.add('setProviderId', function (providerEmail) {
     })
 })
 
-Cypress.Commands.add('apiLogin', function (user) {
+Cypress.Commands.add('apiLogin', function (user, setLocalStorage = false) {
 
     const payload = {
         email: user.email,
@@ -127,11 +127,22 @@ Cypress.Commands.add('apiLogin', function (user) {
 
     cy.request({
         method: 'POST',
-        url: apiServer +'/sessions',
+        url: apiServer + '/sessions',
         body: payload //como body manda email e senha do usuário
     }).then(function (response) {
         expect(response.status).to.eq(200)
         Cypress.env('apiToken', response.body.token) //armazena o token na varíavel env chamada apiToken
+
+        if (setLocalStorage) {
+            const { token, user } = response.body
+
+            window.localStorage.setItem('@Samurai:token', token) // adiciona o token do usuário na sessão do navegador
+            window.localStorage.setItem('@Samurai:user', JSON.stringify(user)) // adiciona os dados do usuário na sessão do navegador
+        }
+
     })
+
+    if(setLocalStorage)
+    cy.visit('/dashboard')
 
 })
