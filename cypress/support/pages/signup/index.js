@@ -12,6 +12,9 @@ class SignupPage { //steps encapsulados
 
     go() { //visita a página
         cy.visit('/signup')
+
+        cy.contains(el.title)
+            .should('be.visible')
     }
 
     form(user) {// preenche o formulário
