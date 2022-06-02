@@ -25,8 +25,9 @@ describe('dashboard', function(){
 
             dashPage.calendarShouldBeVisible() //valida se o calendário está visível
             dashPage.selectDay(date) //seleciona o dia
-            dashPage.appointmentShouldBe(customer, appointment.hour) //valida se o cliente e dia + horário escolhidos estão visíveis
+            dashPage.appointmentShouldBe(customer, appointment.hour) //valida se o cliente, dia e horário escolhidos estão visíveis
 
+            
         })
     })
-})
+}) 
